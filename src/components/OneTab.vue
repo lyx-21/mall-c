@@ -18,7 +18,8 @@
 </template>
 
 <script>
-// import tool from '../util/tool';
+import { mapActions } from 'vuex';
+import tool from '../util/tool';
 
 export default {
   data() {
@@ -135,6 +136,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['getSideList']),
     scrollTo(i, e) {
       if (this.move) {
         return;
@@ -145,8 +147,9 @@ export default {
       const itemWidth = e.target.offsetWidth;
       const itemLeft = e.target.getBoundingClientRect().left;
       const wrapperWidth = oneTab.offsetWidth;
-      this.moveTo(oneTab.scrollLeft, itemWidth / 2 + itemLeft - wrapperWidth / 2);
+      tool.moveTo(oneTab.scrollLeft, itemWidth / 2 + itemLeft - wrapperWidth / 2, oneTab, 'scrollLeft');
       // 获取测边栏数据
+      this.getSideList(this.menuList[i].title);
     },
     moveTo(start, end) {
       let dis = 0;
@@ -163,6 +166,9 @@ export default {
         }
       }, 2);
     },
+  },
+  mounted() {
+    this.getSideList(this.menuList[0].title);
   },
 };
 </script>

@@ -1,4 +1,5 @@
-function moveTo(start, end) {
+/* eslint-disable no-param-reassign */
+function moveTo(start, end, DOM, prop) {
   let dis = 0;
   let speed = 5;
   if (end < 0) {
@@ -6,9 +7,9 @@ function moveTo(start, end) {
   }
   const t = setInterval(() => {
     dis += speed;
-    this.$refs.oneTab.scrollLeft = start + dis;
+    DOM[prop] = start + dis;
     if (Math.abs(dis) > Math.abs(end)) {
-      this.$refs.oneTab.scrollLeft = start + end;
+      DOM[prop] = start + end;
       clearInterval(t);
     }
   }, 2);
