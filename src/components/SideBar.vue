@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import tool from '../util/tool';
 
 export default {
@@ -28,6 +28,8 @@ export default {
     }),
   },
   methods: {
+    ...mapActions(['getGoodsList']),
+    ...mapMutations(['resetGoodsList']),
     scrollTo(i, e) {
       if (this.move) {
         return;
@@ -41,7 +43,13 @@ export default {
       const pHeight = side.offsetHeight;
       tool.moveTo(side.scrollTop, sTop + sHeight - pTop - pHeight, side, 'scrollTop');
       // 获取商品列表 列表页
+      this.resetGoodsList();
+      this.getGoodsList({ type: this.sideList[i], page: 1, sortType: 'all' });
     },
+  },
+  mounted() {
+    this.resetGoodsList();
+    this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
   },
 };
 </script>
