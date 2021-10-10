@@ -4,6 +4,7 @@
       <van-tabbar-item icon="home-o" :to="{name: 'Home'}">首页</van-tabbar-item>
       <van-tabbar-item icon="apps-o" :to="{name: 'Classify'}">分类</van-tabbar-item>
       <van-tabbar-item
+       id="shop-car"
        icon="cart-o"
        :to="{name: 'Shopping'}"
        :badge="badge"

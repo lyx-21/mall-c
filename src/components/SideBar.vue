@@ -47,7 +47,7 @@ export default {
       this.getGoodsList({ type: this.sideList[i], page: 1, sortType: 'all' });
     },
   },
-  mounted() {
+  mounted() { // 刚进入页面时 获取一下goodsList
     this.resetGoodsList();
     this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
   },

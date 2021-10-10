@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
     <div class="card-image">
-      <img :src="images[0]" />
+      <img :src="images[0]" ref="img" />
     </div>
     <div class="card-content">
       <div class="title overflow-hidden">{{ title }}</div>
@@ -29,6 +29,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import Animate from '../tools/animate';
 
 export default {
   props: ['images', 'title', 'desc', 'tags', 'price', 'id', 'num'],
@@ -36,7 +37,28 @@ export default {
     ...mapMutations(['storageChange']),
     counter(id, num) {
       this.storageChange({ id, value: num });
-      console.log(id, num);
+      if (num === -1 || num === -Infinity) {
+        return;
+      }
+      // 获取 动画 相关距离
+      // 图片
+      const { left: imgLeft, top: imgTop } = this.$refs.img.getBoundingClientRect();
+      const { offsetWidth: imgWidth, offsetHeight: imgHeight } = this.$refs.img;
+      // 购物车car
+      const car = document.getElementById('shop-car');
+      const { left: carLeft, top: carTop } = car.getBoundingClientRect();
+      const { offsetWidth: carWidth, offsetHeight: carHeight } = car;
+      const endX = carLeft + carWidth / 2;
+      const endY = carTop + carHeight / 2;
+      Animate({
+        startX: imgLeft,
+        startY: imgTop,
+        endX,
+        endY,
+        width: imgWidth,
+        height: imgHeight,
+        src: this.$refs.img.src,
+      });
     },
   },
 };

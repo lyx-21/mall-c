@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
+    path: '/main',
     name: 'Main',
     component: Main,
     children: [
@@ -42,8 +42,7 @@ const routes = [
     component: () => import('../view/Search.vue'),
   },
   {
-    path: '*',
-    component: Classify,
+    path: '*', redirect: '/main/Classify',
   },
 ];
 
