@@ -11,8 +11,24 @@ export default new Vuex.Store({
     goodsList: [],
     size: 5,
     type: null,
+    counterMap: {}, // 商品数量 对象
   },
   mutations: {
+    storageChange(state, { id, value }) {
+      if (state.counterMap[id]) {
+        if ((value === -1 && state.counterMap[id] === 1) || value === -Infinity) {
+          Vue.delete(state.counterMap, id);
+        } else {
+          Vue.set(state.counterMap, id, state.counterMap[id] + value); // 若counterMap有值 已有值加上 当前值
+        }
+      } else {
+        Vue.set(state.counterMap, id, 1);
+      }
+      localStorage.setItem('goods', JSON.stringify(state.counterMap)); // 商品数量 储存到本地
+    },
+    setCounterMap(state, map) {
+      state.counterMap = map;
+    },
     setSideList(state, list) {
       state.sideList = list;
     },

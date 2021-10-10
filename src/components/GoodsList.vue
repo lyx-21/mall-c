@@ -28,6 +28,7 @@
         v-for="item in goodsList"
         :key="item.id"
         v-bind="item"
+        :num="counterMap[item.id]"
         ></goods-card>
         <div>
         </div>
@@ -54,6 +55,7 @@ export default {
   computed: {
     ...mapState({
       goodsList: (state) => state.goodsList,
+      counterMap: (state) => state.counterMap,
     }),
   },
   components: {
@@ -62,19 +64,19 @@ export default {
   methods: {
     ...mapActions(['getGoodsList']),
     ...mapMutations(['resetGoodsList']),
-    onRefresh() {
+    onRefresh() { // 下拉加载
       this.isLoading = true;
       this.loading = false;
       this.finished = false;
       this.page = 1;
       this.resetGoodsList();
-      this.getGoodsList({ page: 1, sortType: this.type });
+      this.getGoodsList({ page: 1, sortType: this.type }); // 重新请求数据
       this.isLoading = false;
     },
-    async onLoad() {
+    async onLoad() { // 向上滚动刷新
       this.page += 1;
       this.loading = true;
-      const result = await this.getGoodsList({ page: this.page, sortType: this.type });
+      const result = await this.getGoodsList({ page: this.page, sortType: this.type }); // 继续请求数据
       if (result) {
         this.loading = false;
       } else {
