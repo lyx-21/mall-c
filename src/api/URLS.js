@@ -2,6 +2,8 @@
 export const URLS = {
   getSide: '/getsidebar',
   getGoodsList: '/getGoodsList',
+  likeSearch: '/likeSearch',
+  search: '/search',
 };
 
 const baseURL = 'https://mallapi.duyiedu.com/goods/';

@@ -58,7 +58,10 @@ export default new Vuex.Store({
       commit('setGoodsType', type);
       const { list, total } = await api.getGoodsList(type, page, state.size, sortType);
       commit('setGoodsList', list);
-      console.log(list, total);
+      if (total > state.goodsList.length) {
+        return true;
+      }
+      return false;
     },
   },
   modules: {
