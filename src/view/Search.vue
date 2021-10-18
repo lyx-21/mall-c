@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper">
     <div class="search-header">
-      <van-icon name="arrow-left" class="arr-left" />
+      <van-icon name="arrow-left" class="arr-left" @click="$router.goBack()" />
       <van-search
         class="search-content"
         v-model="value"
@@ -48,12 +48,16 @@
         ></goods-card>
       </van-list>
     </div>
+    <div class="my-histroy" v-if="this.likeList.length <= 0 && showlist">
+      <my-history :searchList="searchList" @search="onSearch"></my-history>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import goodsCard from '../components/GoodsCard.vue';
+import myHistory from '../components/History.vue';
 
 export default {
   data() {
@@ -69,10 +73,12 @@ export default {
       page: 1,
       size: 5,
       total: 0,
+      searchList: [],
     };
   },
   components: {
     goodsCard,
+    myHistory,
   },
   computed: {
     ...mapState({
@@ -104,6 +110,17 @@ export default {
       } else {
         this.value = this.place;
       }
+      const result = this.searchList.find((item) => item.value === this.value); // 看历史记录中是否有记录
+      if (result) {
+        result.time = new Date().getTime(); // 有记录 更新最新时间
+        this.searchList.sort((a, b) => b.time - a.time); // 根据时间 倒序 以便来到最新数据
+      } else {
+        this.searchList.unshift({ value: this.value, time: new Date().getTime() }); // 没有 将其放入队列中
+        if (this.searchList.length >= 11) {
+          this.searchList.pop(); // 超过10条记录 ，删除最后一条
+        }
+      }
+      localStorage.setItem('searchList', JSON.stringify(this.searchList)); // 存储到本地
       this.likeList = [];
       this.goodsList = [];
       this.page = 1;
@@ -137,6 +154,9 @@ export default {
       const reg = new RegExp(this.value, 'g');
       return item.replace(reg, this.value.fontcolor('red'));
     },
+  },
+  created() {
+    this.searchList = JSON.parse(localStorage.getItem('searchList')) || []; // created钩子函数 获取数据
   },
 };
 </script>
@@ -177,6 +197,13 @@ export default {
     margin: 48px auto 0;
     z-index: 10;
     background: #fff;
+  }
+  .my-history {
+    width: 350px;
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    z-index: 1;
   }
 }
 </style>

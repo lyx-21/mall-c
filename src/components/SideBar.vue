@@ -47,10 +47,10 @@ export default {
       this.getGoodsList({ type: this.sideList[i], page: 1, sortType: 'all' });
     },
   },
-  mounted() { // 刚进入页面时 获取一下goodsList
-    this.resetGoodsList();
-    this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
-  },
+  // mounted() { // 刚进入页面时 获取一下goodsList 不能在这里获取 容易出现 重复请求数据 在父组件中 watch监听 showContent 在获取数据
+  //   this.resetGoodsList();
+  //   this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
+  // },
 };
 </script>
 

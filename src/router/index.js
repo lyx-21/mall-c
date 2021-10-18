@@ -7,6 +7,11 @@ import Shopping from '../view/Shopping.vue';
 import User from '../view/User.vue';
 
 Vue.use(VueRouter);
+VueRouter.prototype.back = false;
+VueRouter.prototype.goBack = function goBack() {
+  this.back = true;
+  this.go(-1);
+};
 
 const routes = [
   {
