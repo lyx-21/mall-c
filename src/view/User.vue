@@ -1,7 +1,7 @@
 <template>
-  <uaer-wrapper>
-      my
-  </uaer-wrapper>
+  <div class="user-wrapper">
+    my name
+  </div>
 </template>
 
 <script>
@@ -12,4 +12,4 @@ export default {
 
 <style lang="less" scoped>
 
-</style>>
+</style>

@@ -20,7 +20,7 @@
           id="shop-car"
           class="shop-car"
           :badge="badge"
-          @click="this.$router.push('/main/shopping')"/>
+          @click="$router.push('/main/shopping')"/>
         </template>
       </van-search>
     </div>
